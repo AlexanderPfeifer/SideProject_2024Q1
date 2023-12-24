@@ -9,6 +9,7 @@ public class PlayerAnimator : MonoBehaviour
     private Vector2 moveDirection = Vector2.down;
     private float speed = 0;
 
+    //Here I set the floats of direction and speed of the player equal to the animation floats.
     private void Awake()
     {
         animator.SetFloat("MoveDirX", moveDirection.x);
@@ -16,6 +17,7 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetFloat("Speed", speed);
     }
 
+    //I ask if the Magnitude has changed, if it doesn't, then it returns, otherwise a new direction is set equal to the animation parameter of direction.
     public void SetLookDirection(Vector2 newDirecton)
     {
         if (newDirecton.sqrMagnitude <= 0)
