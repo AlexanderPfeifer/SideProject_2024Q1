@@ -5,17 +5,19 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerAnimator playerAnimator;
     private HealthManager healthManager;
+    private Camera playerCam;
+    private Enemy enemy;
 
     [HideInInspector] public Vector2 moveDirection;
 
     [SerializeField] private GameObject playerDeathScreen;
     [SerializeField] private float playerSpeed;
+    [SerializeField] private Transform bulletPrefab;
+    [SerializeField] private GameObject door;
 
     private const int EnemyCollisionDamage = 1;
-
-    [SerializeField] private Transform bulletPrefab;
-
-    private Camera playerCam;
+    private const float BulletShootingDelay = 0.35f;
+    private float currentBulletShootingDelay;
 
     private void Start()
     {
@@ -23,7 +25,10 @@ public class Player : MonoBehaviour
         playerAnimator = FindObjectOfType<PlayerAnimator>();
         healthManager = GetComponent<HealthManager>();
         playerDeathScreen.SetActive(false);
+        door.SetActive(false);
         playerCam = FindObjectOfType<Camera>();
+        enemy = FindObjectOfType<Enemy>();
+        Time.timeScale = 1;
     }
 
     //Besides Updating multiple methods, the cameras transform is set equal to the players transform
@@ -36,10 +41,11 @@ public class Player : MonoBehaviour
         if (healthManager.isDead)
         {
             playerDeathScreen.SetActive(true);
+            Time.timeScale = 0.25f;
+            Destroy(gameObject);
         }
 
-        var transformPositionCam = playerCam.transform.position;
-        transformPositionCam = transform.position;
+        var transformPositionCam = transform.position;
         transformPositionCam.z = -10;
         playerCam.transform.position = transformPositionCam;
     }
@@ -63,6 +69,18 @@ public class Player : MonoBehaviour
 
         playerAnimator.SetLookDirection(moveDirection);
     }
+    
+    //Instantiates a BulletPrefab on player position 
+    private void SpawnBullet()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && currentBulletShootingDelay <= 0)
+        {
+            Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            currentBulletShootingDelay = BulletShootingDelay;
+        }
+
+        currentBulletShootingDelay -= Time.deltaTime;
+    }
 
     //Subtracts the the the currentHealth of Player with collisionDamage
     private void OnCollisionEnter2D(Collision2D col)
@@ -70,15 +88,17 @@ public class Player : MonoBehaviour
         if (col.gameObject.GetComponent<Enemy>())
         {
             healthManager.GetDamage(EnemyCollisionDamage);
+            enemy.enemyCanMove = true;
+            enemy.ChangeSphereDirection();
         }
     }
 
-    //Instantiates a BulletPrefab on player position 
-    private void SpawnBullet()
+    //Sets Door element active when on invisible collider enter
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (col.gameObject.GetComponent<BoxCollider2D>())
         {
-            Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            door.SetActive(true);
         }
     }
 }

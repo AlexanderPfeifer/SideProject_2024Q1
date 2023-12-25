@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4810900342134001671}
   - component: {fileID: 1349257547212375473}
   - component: {fileID: 549644139565785583}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -120,7 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 454375383304388405}
   - component: {fileID: 3857329097307336390}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1604517497
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: -39852598, guid: dee8774e81d883844be8974e1487f231, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
     [SerializeField] private Animator animator;
 
-    private Vector2 moveDirection = Vector2.down;
-    private float speed = 0;
+    public Vector2 moveDirection = Vector2.down;
+    private float speed;
 
     //Here I set the floats of direction and speed of the player equal to the animation floats.
     private void Awake()
